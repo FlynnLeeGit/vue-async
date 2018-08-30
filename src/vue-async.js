@@ -22,7 +22,7 @@ vueAsync.install = function(Vue, { autoLoadMethod } = {}) {
           const loadingName = `${reqName}$loading`
           Vue.util.defineReactive(this, loadingName, false)
 
-          // 手动触发resolve函数 如果是对象则赋值
+          // if result is Object,set it to instance
           const resolver = data => {
             this[loadingName] = false
             if (isPlainObject(data)) {
@@ -31,14 +31,14 @@ vueAsync.install = function(Vue, { autoLoadMethod } = {}) {
               })
             }
           }
-          // 代理到实例上的请求方法
+          // set Async task to `this`
           this[reqName] = () => {
             this[loadingName] = true
             const returnVal = reqFn.call(this, resolver)
             if (isNil(returnVal)) {
               return
             }
-            // 返回了promise函数 即使不调用resolve 也使状态完成
+            // if return promise,so promise.then or catch will make status finished 
             if (returnVal.then) {
               return returnVal.then(
                 res => {
