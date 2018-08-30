@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/FlynnLeeGit/vue-async.git"
   },
   "unpkg": "dist/vue-async.js",
   "keywords": [
@@ -18,7 +18,7 @@
   ],
   "author": "FlynnLee",
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/FlynnLeeGit/vue-async",
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "npm run build:library && npm run build:demo",
