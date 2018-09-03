@@ -1,5 +1,5 @@
 /**
- * vue-async v0.2.0
+ * vue-async v0.2.1
  * (c) 2018 FlynnLee
  * @license MIT
  */
