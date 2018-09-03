@@ -11,6 +11,10 @@ import VueAsync from 'vue-async'
 Vue.use(VueAsync)
 ```
 
+demo can see in [demo](./demo)
+
+
+
 in your component
 
 ```html
@@ -63,7 +67,16 @@ export default {
 }
 ```
 
-demo can see in [demo](./demo)
+with PageLoadAsync use Vue.mixin()
+
+```js
+Vue.mixin({
+  mounted(){
+    this.getData && this.getData() // every page use this.getData when mounted,useful with page component
+  }
+})
+
+```
 
 
 ### Development Setup

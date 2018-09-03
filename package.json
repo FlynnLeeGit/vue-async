@@ -1,7 +1,7 @@
 {
   "name": "vue-async",
   "description": "simple vue async tasks manager",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "main": "dist/vue-async.js",
   "files": [
