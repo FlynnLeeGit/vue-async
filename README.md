@@ -63,16 +63,6 @@ export default {
 }
 ```
 
-### autoLoadMethod
-
-```js
-Vue.use(VueAsync, {
-  autoLoadMethod: {
-    mounted: 'getData'
-  } // this.getData  will auto run in mounted LifeCycle
-})
-```
-
 demo can see in [demo](./demo)
 
 

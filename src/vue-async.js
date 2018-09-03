@@ -56,15 +56,6 @@ vueAsync.install = function(Vue, { autoLoadMethod } = {}) {
       }
     }
   })
-  if (isPlainObject(autoLoadMethod)) {
-    forEach(autoLoadMethod, (fnName, lifeCycle) => {
-      Vue.mixin({
-        [lifeCycle]() {
-          this[fnName] && this[fnName]()
-        }
-      })
-    })
-  }
 }
 
 /**
