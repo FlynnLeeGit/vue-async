@@ -6,11 +6,13 @@
       <button @click='getTodosPromise'>getTodosPromise</button>
       <button @click='onGetResp'>onGetResp see in console</button>
       <button @click="postTodo">postTodo Handler Error</button>
+      <button @click='acceptArgs(333)'>acceptArgs</button>
       <button @click='list = []'>clearList</button>
     </div>
     <div>getTodos$loading {{getTodos$loading}}</div>
     <div>getTodosPromise$loading {{getTodosPromise$loading}}</div>
     <div>postTodo$loading {{postTodo$loading}}</div>
+    <div>acceptArgs$loading  {{acceptArgs$loading}}</div>
     <ul>
       <li v-for='item in list'
         :key="item.id">
@@ -36,7 +38,7 @@ const postTodo = () =>
       reject({ code: 333, message: 'assign error', data: [] })
     }, 500)
   })
-  
+
 export default {
   name: 'app',
   data() {
@@ -53,11 +55,9 @@ export default {
   },
   async: {
     // autoLoad
-    getTodos(done) {
-      getTodos().then(todos => {
-        done({
-          list: todos
-        })
+    getTodos() {
+      return getTodos().then(todos => {
+        this.list = todos
       })
     },
     getTodosPromise() {
@@ -68,6 +68,10 @@ export default {
     },
     postTodo() {
       return postTodo()
+    },
+    acceptArgs(id) {
+      console.log(id)
+      // return getTodos(id)
     }
   }
 }

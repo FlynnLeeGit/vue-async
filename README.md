@@ -13,8 +13,6 @@ Vue.use(VueAsync)
 
 demo can see in [demo](./demo)
 
-
-
 in your component
 
 ```html
@@ -39,7 +37,7 @@ export default {
   },
   // these are all async tasks
   async: {
-    // return a promise
+    // return a promise and it will auto update getData$loading status
     getData() {
       return getList().then(res => {
         this.list = res.list
@@ -50,18 +48,21 @@ export default {
 </script>
 ```
 
-quick set data
+with args
 
 ```js
 export default {
   data: {
     list: []
   },
+  created() {
+    this.getList({
+      name: 'lee'
+    })
+  },
   async: {
-    getData(done) {
-      setTimeout(() => {
-        done({ list: [1, 2, 3] }) // this.list will be [1,2,3]
-      }, 2000)
+    getList(user) {
+      console.log(user)
     }
   }
 }
@@ -71,17 +72,15 @@ with PageLoadAsync use Vue.mixin()
 
 ```js
 Vue.mixin({
-  mounted(){
+  mounted() {
     this.getData && this.getData() // every page use this.getData when mounted,useful with page component
   }
 })
-
 ```
-
 
 ### Development Setup
 
-``` bash
+```bash
 # install deps
 npm install
 

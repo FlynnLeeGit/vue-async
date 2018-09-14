@@ -4,5 +4,3 @@ export const forEach = (obj, fn) => {
     fn(obj[k], k)
   }
 }
-export const isPlainObject = s =>
-  Object.prototype.toString.call(s) === '[object Object]'
