@@ -1,6 +1,6 @@
 # vue-async
 
-> simple vue async tasks manager
+> simple vue async tasks manager,now can support rxjs Observable method!
 
 ### install
 
@@ -17,34 +17,34 @@ in your component
 
 ```html
 <template>
-    <!-- auto loading state when getData method is called -->
-    {{getData$loading}}
+  <!-- auto loading state when getData method is called -->
+  {{getData$loading}}
 </template>
 
 <script>
-import { getList } from '@/api/custom-service'
-export default {
-  data() {
-    return {
-      list: [],
-      info:{
-          username:'lee',
+  import { getList } from '@/api/custom-service'
+  export default {
+    data() {
+      return {
+        list: [],
+        info: {
+          username: 'lee'
+        }
+      }
+    },
+    created() {
+      this.getData()
+    },
+    // these are all async tasks
+    async: {
+      // return a promise and it will auto update getData$loading status
+      getData() {
+        return getList().then(res => {
+          this.list = res.list
+        })
       }
     }
-  },
-  created() {
-      this.getData()
-  },
-  // these are all async tasks
-  async: {
-    // return a promise and it will auto update getData$loading status
-    getData() {
-      return getList().then(res => {
-        this.list = res.list
-      })
-    }
   }
-}
 </script>
 ```
 
@@ -66,6 +66,60 @@ export default {
     }
   }
 }
+```
+
+with Rxjs
+
+```js
+import Vue from 'vue'
+import VueAsync from 'vue-async'
+
+import { tap, finalize } from 'rxjs/operators'
+
+Vue.use(VueAsync, {
+  rx: {
+    tap,
+    finalize
+  }
+})
+```
+
+in component
+
+```html
+<template>
+  <!-- auto loading state when getData method is called -->
+  {{initData$loading}}
+</template>
+
+<script>
+  import { ajax } from 'rxjs/ajax'
+  import { tap } from 'rxjs/operators'
+  const getListStream = () =>
+    ajax.getJSON('https://jsonplaceholder.typicode.com/todos')
+
+  export default {
+    data() {
+      return {
+        list: []
+      }
+    },
+    created() {
+      this.initData().subscribe()
+    },
+    // these are all async tasks
+    async: {
+      // return a promise and it will auto update getData$loading status
+      initData() {
+        return getListStream().pipe(
+          tap(list => {
+            this.list = list
+          })
+        )
+      }
+    }
+  }
+</script>
 ```
 
 with PageLoadAsync use Vue.mixin()

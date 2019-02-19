@@ -12,7 +12,7 @@ const vueAsync = {
 /**
  * Plugin API
  */
-vueAsync.install = function(Vue, { autoLoadMethod } = {}) {
+vueAsync.install = function(Vue, { rx = {} } = {}) {
   Vue.mixin({
     beforeCreate() {
       const async = this.$options.async
@@ -40,6 +40,24 @@ vueAsync.install = function(Vue, { autoLoadMethod } = {}) {
                   this[loadingName] = false
                   throw reason
                 }
+              )
+            }
+            // if return observable
+            if (returnVal.pipe) {
+              if (!rx.tap || !rx.finalize) {
+                throw new Error(
+                  '[vue-async] you are using rxjs method should pass rx:{tap,finalize} in plugin options'
+                )
+              }
+              const { tap, finalize } = rx
+              this[loadingName] = true
+              return returnVal.pipe(
+                tap(_ => {
+                  this[loadingName] = false
+                }),
+                finalize(_ => {
+                  this[loadingName] = false
+                })
               )
             }
           }

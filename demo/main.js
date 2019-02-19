@@ -2,15 +2,22 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import { tap, finalize } from 'rxjs/operators'
 
-const vueAsync = process.env.NODE_ENV === 'development'
-  ? require('../src/vue-async.js').default
-  : require('../dist/vue-async.js')
+const vueAsync =
+  process.env.NODE_ENV === 'development'
+    ? require('../src/vue-async.js').default
+    : require('../dist/vue-async.js')
 
 Vue.config.productionTip = false
 
 // Using plugin
-Vue.use(vueAsync)
+Vue.use(vueAsync, {
+  rx: {
+    tap,
+    finalize
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
